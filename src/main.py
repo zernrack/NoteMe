@@ -1,6 +1,10 @@
 import tkinter as tk
 from tkinter.filedialog import askopenfilename, asksaveasfilename
 
+def new_file(window, text_edit):
+    text_edit.delete(1.0, tk.END)
+    window.title("Untitled")
+
 def open_file(window, text_edit):
     filepath = askopenfilename(filetypes=[("Text Files", "*.txt")])
 
@@ -36,14 +40,16 @@ def main():
     text_edit.grid(row=0, column=1)
 
     frame = tk.Frame(window, relief=tk.RAISED, bd=2)
+    newFile_button = tk.Button(frame, text="New", command=lambda: new_file(window, text_edit))
     save_button = tk.Button(frame, text="Save", command=lambda: save_file(window, text_edit))
     open_button = tk.Button(frame, text="Open", command=lambda: open_file(window, text_edit))
 
-    save_button.grid(row=0, column=0, padx=5, pady=5, sticky="ew")
-    open_button.grid(row=1, column=0, padx=5, pady=5, sticky="ew")
+    newFile_button.grid(row=0, column=0, padx=5, pady=5, sticky="ew")
+    save_button.grid(row=1, column=0, padx=5, pady=5, sticky="ew")
+    open_button.grid(row=2, column=0, padx=5, pady=5, sticky="ew")
     frame.grid(row=0, column=0, sticky="ns")
 
-
+    window.bind("<Control-n>", lambda x: new_file(window, text_edit))
     window.bind("<Control-s>", lambda x: save_file(window, text_edit))
     window.bind("<Control-o>", lambda x: open_file(window, text_edit))
 
